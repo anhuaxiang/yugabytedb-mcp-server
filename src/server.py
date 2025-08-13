@@ -12,9 +12,11 @@ import uvicorn
 from fastapi import FastAPI
 from starlette.responses import JSONResponse
 
+
 @dataclass
 class AppContext:
     conn: psycopg2.extensions.connection
+
 
 @asynccontextmanager
 async def app_lifespan(server: FastMCP) -> AsyncIterator[AppContext]:
@@ -110,18 +112,20 @@ def run_http():
         async with AsyncExitStack() as stack:
             await stack.enter_async_context(mcp.session_manager.run())
             yield
+
     app = FastAPI(lifespan=lifespan)
+
     @app.get("/ping")
     async def ping():
         return JSONResponse({"status": "ok"})
-    
+
     app.mount("/invocations", mcp.streamable_http_app())
-    
-    uvicorn.run(app, host="0.0.0.0", port=8080) 
+
+    uvicorn.run(app, host="0.0.0.0", port=8080)
 
 
 def main():
-     parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser()
     parser.add_argument("--transport", default="stdio", help="stdio | http")
     args = parser.parse_args()
 
@@ -130,7 +134,7 @@ def main():
     if args.transport == "http":
         run_http()
     else:
-        run_stdio()   
+        run_stdio()
 
 
 if __name__ == "__main__":
