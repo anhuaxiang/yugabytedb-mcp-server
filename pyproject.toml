@@ -10,3 +10,6 @@ dependencies = [
     "fastapi>=0.115.12",
     "psycopg2-binary>=2.9.10",
 ]
+
+[project.scripts]
+yugabytedb-mcp-server = "src.server:main"
