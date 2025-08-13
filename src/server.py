@@ -120,8 +120,8 @@ def run_http():
     uvicorn.run(app, host="0.0.0.0", port=8080) 
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
+def main():
+     parser = argparse.ArgumentParser()
     parser.add_argument("--transport", default="stdio", help="stdio | http")
     args = parser.parse_args()
 
@@ -130,4 +130,8 @@ if __name__ == "__main__":
     if args.transport == "http":
         run_http()
     else:
-        run_stdio()
+        run_stdio()   
+
+
+if __name__ == "__main__":
+    main()
